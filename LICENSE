@@ -20,9 +20,12 @@
  * SOFTWARE.
  */
 
-Signavio Core Components
-------------------------
- 
+Signavio Core Components
+
+------------------------
+
+
+
 This project is a fork of Signavio Core Components, a project that was initially 
 created by the Signavio team and 
 distributed under an MIT License. It is currently distributed under the GPLv3. 
