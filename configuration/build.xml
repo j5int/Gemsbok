@@ -15,7 +15,14 @@
 		<copy file="${configuration}/editor/plugins.xml" tofile="../editor/src/scripts/Plugins/plugins.xml" overwrite="true" />
 		<copy file="${configuration}/editor/stencilsets.json" tofile="../editor/data/stencilsets/stencilsets.json" overwrite="true" />
 		<copy file="${configuration}/editor/extensions.json" tofile="../editor/data/stencilsets/extensions/extensions.json" overwrite="true" />
+		<available file="${configuration}/editor/stencilsets" type="dir" property="has.stencilsets"/>
 		<copy file="build/version.js" todir="../editor/src/scripts/Plugins/" overwrite="true" />
+	</target>
+
+	<target name="com.signavio.configuration.copy.editor.stencilsets" depends="com.signavio.configuration.copy.editor" if="has.stencilsets">
+		<copy todir="../editor/data/stencilsets">
+			<fileset dir="${configuration}/editor/stencilsets"/>
+		</copy>
 	</target>
 
 	<target name="com.signavio.configuration.copy.explorer" depends="com.signavio.configuration.createVersionFile">
@@ -36,7 +43,7 @@
 		</echo>
 	</target>
 
-	<target name="com.signavio.configuration.copy" depends="com.signavio.configuration.copy.editor, com.signavio.configuration.copy.explorer, com.signavio.configuration.copy.platform">
+	<target name="com.signavio.configuration.copy" depends="com.signavio.configuration.copy.editor, com.signavio.configuration.copy.editor.stencilsets, com.signavio.configuration.copy.explorer, com.signavio.configuration.copy.platform">
 		<echo>
 	    	Configuration: ${configuration}
 		</echo>
