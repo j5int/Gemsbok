@@ -2548,7 +2548,8 @@
 				"to_task_event",
 				"from_task_event",
 				"fromtoall",
-				"ActivitiesMorph"
+				"ActivitiesMorph",
+				"task"
 			]
 		},
 		{
@@ -6376,7 +6377,8 @@
 			"roles": [
 				"all",
 				"ConnectingObjectsMorph",
-				"fromtoall"
+				"fromtoall",
+				"SequenceFlow"
 			],
 			"properties":[
 				{
