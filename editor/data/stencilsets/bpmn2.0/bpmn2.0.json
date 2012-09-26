@@ -2471,7 +2471,8 @@
 				"messageflow_start",
 				"messageflow_end",
 				"fromtoall",
-				"ActivitiesMorph"
+				"ActivitiesMorph",
+				"task"
 			]
 		},
 		{
@@ -2549,7 +2550,7 @@
 				"from_task_event",
 				"fromtoall",
 				"ActivitiesMorph",
-				"task"
+				"subprocess"
 			]
 		},
 		{
@@ -2641,7 +2642,8 @@
 				"from_task_event",
 				"fromtoall",
 				"canContainArtifacts",
-				"ActivitiesMorph"
+				"ActivitiesMorph",
+				"subprocess"
 			]
 		},
 		{
