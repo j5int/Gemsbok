@@ -2,6 +2,10 @@ package com.signavio.warehouse.business;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,7 +26,18 @@ public class BPMN20XMLFileUtil {
 
 	public static void storeBPMN20XMLFile(String path, String jsonRep) throws IOException, JSONException, BpmnConverterException, JAXBException, SAXException, ParserConfigurationException, TransformerException {
 		PlatformProperties props = Platform.getInstance().getPlatformProperties();
-		Diagram2XmlConverter converter = new Diagram2XmlConverter(BasicDiagramBuilder.parseJson(jsonRep), Platform.getInstance().getFile("/WEB-INF/xsd/BPMN20.xsd").getAbsolutePath());
+		Map<String, Object> configuration = new HashMap<String, Object>();
+		Map<String, Set<String>> metaData = new HashMap<String, Set<String>>();
+		metaData.put("Task", new HashSet<String>());
+		metaData.get("Task").add("checklist_name");
+		metaData.get("Task").add("completion_conditions");
+		
+		configuration.put("metaData", metaData);		
+				
+		Diagram2XmlConverter converter = new Diagram2XmlConverter(
+				BasicDiagramBuilder.parseJson(jsonRep), 
+				Platform.getInstance().getFile("/WEB-INF/xsd/BPMN20.xsd").getAbsolutePath(),
+				configuration);
 		
 		StringWriter xml = converter.getXml();
 		
