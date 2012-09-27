@@ -21,6 +21,7 @@
  */
 package com.signavio.platform.core;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface PlatformProperties {
@@ -40,4 +41,6 @@ public interface PlatformProperties {
 	public abstract Set<String> getAdmins();
 
 	public String getRootDirectoryPath();
+	
+	public Map<String, Set<String>> getMetaData();
 }

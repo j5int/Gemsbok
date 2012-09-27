@@ -26,11 +26,22 @@ package com.signavio.platform.core.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import com.signavio.platform.core.PlatformProperties;
 import com.signavio.platform.exceptions.InitializationException;
@@ -49,6 +60,7 @@ public class FsPlatformPropertiesImpl implements PlatformProperties {
 	private final String supportedBrowserEditor;
 	
 	private final String rootDirectoryPath;
+	private final Map<String, Set<String>> metaData;
 	
 
 	public FsPlatformPropertiesImpl(ServletContext context) {
@@ -74,6 +86,68 @@ public class FsPlatformPropertiesImpl implements PlatformProperties {
 		explorerUri = context.getContextPath() + "/explorer";
 		editorUri = context.getContextPath() + "/editor";
 		libsUri = context.getContextPath() + "/libs";
+		
+		Map<String, Set<String>> md = new HashMap<String, Set<String>>();
+		
+		try {
+			InputStream in = this.getClass().getClassLoader().getResourceAsStream("bpmn_export.json");
+			if (in != null)
+			{
+				try {
+					JSONObject bpmnExportSettings = new JSONObject(new JSONTokener(new InputStreamReader(in)));
+					JSONArray a = bpmnExportSettings.optJSONArray("metadata");
+					if (a != null)
+					{
+						for (int i = 0; i < a.length(); i++)
+						{
+							JSONObject e = a.optJSONObject(i);
+							if (e != null)
+							{
+								String stencil = e.optString("stencil");
+								if (stencil != null)
+								{
+									JSONArray p = e.optJSONArray("properties");
+									if (p != null)
+									{
+										for (int j = 0; j < p.length(); j++)
+										{
+											String p_name = p.optString(j);
+											if (p_name != null)
+											{
+												Set<String> p_set = md.get(stencil);
+												if (p_set == null)
+												{
+													p_set = new HashSet<String>();
+													md.put(stencil, p_set);
+												}
+												p_set.add(p_name);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+							
+				}
+				finally {
+					in.close();
+				}
+				
+			}
+		} catch (Exception e) {
+			throw new InitializationException(e);
+		}
+		
+		//Now make it read only. We can remove this later if we need to, but we can't put it in later!:
+		Map<String, Set<String>> nmd = new HashMap<String, Set<String>>();
+		Iterator<Entry<String, Set<String>>> it = md.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<String, Set<String>> entry = it.next();
+			nmd.put(entry.getKey(), Collections.unmodifiableSet(entry.getValue()));
+		}
+		    
+		metaData = Collections.unmodifiableMap(nmd);
 	}
 	
 	/* (non-Javadoc)
@@ -119,5 +193,9 @@ public class FsPlatformPropertiesImpl implements PlatformProperties {
 	
 	public String getRootDirectoryPath() {
 		return rootDirectoryPath;
+	}
+	
+	public Map<String, Set<String>> getMetaData() {
+		return metaData;
 	}
 }
