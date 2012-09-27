@@ -11,11 +11,15 @@
 			</echo>
 	</target>
 
-	<target name="com.signavio.configuration.copy.editor" depends="com.signavio.configuration.createVersionFile">
+	<target name="com.signavio.configuration.setproperties" depends="com.signavio.configuration.createVersionFile">
+		<available file="${configuration}/editor/stencilsets" type="dir" property="has.stencilsets"/>
+		<available file="${configuration}/bpmn_export.json" type="file" property="has.bpmn_export.json"/>
+	</target>
+
+	<target name="com.signavio.configuration.copy.editor" depends="com.signavio.configuration.setproperties">
 		<copy file="${configuration}/editor/plugins.xml" tofile="../editor/src/scripts/Plugins/plugins.xml" overwrite="true" />
 		<copy file="${configuration}/editor/stencilsets.json" tofile="../editor/data/stencilsets/stencilsets.json" overwrite="true" />
 		<copy file="${configuration}/editor/extensions.json" tofile="../editor/data/stencilsets/extensions/extensions.json" overwrite="true" />
-		<available file="${configuration}/editor/stencilsets" type="dir" property="has.stencilsets"/>
 		<copy file="build/version.js" todir="../editor/src/scripts/Plugins/" overwrite="true" />
 	</target>
 
@@ -25,7 +29,7 @@
 		</copy>
 	</target>
 
-	<target name="com.signavio.configuration.copy.explorer" depends="com.signavio.configuration.createVersionFile">
+	<target name="com.signavio.configuration.copy.explorer" depends="com.signavio.configuration.setproperties">
 		<copy todir="../explorer/src" overwrite="true" failonerror="false">
 			<fileset dir="${configuration}/skin">
 				<include name="**/*.*" />
@@ -43,7 +47,11 @@
 		</echo>
 	</target>
 
-	<target name="com.signavio.configuration.copy" depends="com.signavio.configuration.copy.editor, com.signavio.configuration.copy.editor.stencilsets, com.signavio.configuration.copy.explorer, com.signavio.configuration.copy.platform">
+	<target name="com.signavio.configuration.copy.platform.bpmn_export" depends="com.signavio.configuration.copy.platform" if="has.bpmn_export.json">
+		<copy file="${configuration}/bpmn_export.json" tofile="../platform/conf/classpath/bpmn_export.json" overwrite="true" />
+	</target>
+
+	<target name="com.signavio.configuration.copy" depends="com.signavio.configuration.copy.editor, com.signavio.configuration.copy.editor.stencilsets, com.signavio.configuration.copy.explorer, com.signavio.configuration.copy.platform, com.signavio.configuration.copy.platform.bpmn_export">
 		<echo>
 	    	Configuration: ${configuration}
 		</echo>
