@@ -26,6 +26,11 @@ import java.io.*;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import org.apache.batik.transcoder.Transcoder;
+import org.apache.batik.transcoder.TranscoderException;
+import org.apache.batik.transcoder.TranscoderInput;
+import org.apache.batik.transcoder.TranscoderOutput;
+import org.apache.batik.transcoder.svg2svg.SVGTranscoder;
 import com.signavio.platform.util.fsbackend.FileSystemUtil;
 import com.signavio.warehouse.model.business.FsModel;
 import com.signavio.warehouse.model.business.ModelType;
@@ -120,7 +125,15 @@ public class SignavioModelType implements ModelType {
 		if (!FileSystemUtil.writeXmlNodeChildToFile(JSON_ElEMENT_NAME, gson.toJson(je), true, path)) {
 			throw new IllegalStateException("Could not write new revision data to file");
 		}
-        //TODO: Pretty-Print SVG XML
+        // Pretty-Print SVG XML
+        try {
+            StringWriter outputWriter = new StringWriter(svgRep.length());
+            Transcoder transcoder = new SVGTranscoder();
+            TranscoderInput transcoderInput = new TranscoderInput(new StringReader(svgRep));
+            TranscoderOutput transcoderOutput = new TranscoderOutput(outputWriter);
+            transcoder.transcode(transcoderInput, transcoderOutput);
+            svgRep = outputWriter.getBuffer().toString();
+        } catch (Exception e) { }
 		if (!FileSystemUtil.writeXmlNodeChildToFile(SVG_ElEMENT_NAME, svgRep, true, path)) {
 			throw new IllegalStateException("Could not write new revision data to file");
 		}
