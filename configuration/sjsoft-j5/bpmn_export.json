@@ -1,0 +1,11 @@
+{
+	"title" : "j5 Workflow Export Extension",
+	"namespace":"http://sjsoft.com/export/extensions/bpmn2.0-sjsoft-j5#",
+	"description":"Defines the extra meta data to export for j5 workflows",
+	"metadata": [
+		{
+			"stencil": "Task",
+			"properties": ["j5_checklists", "j5_completion_conditions", "j5_status_change", "j5_properties"]
+		 },
+	]
+}
