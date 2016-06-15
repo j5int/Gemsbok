@@ -1,0 +1,204 @@
+{
+	"title" : "j5 Workflow",
+	"namespace":"http://sjsoft.com/oryx-editor/stencilsets/extensions/bpmn2.0-sjsoft-j5#",
+	"description":"A subset of BPMN 2.0 containing j5 supported notation.",
+	"extends":"http://b3mn.org/stencilset/bpmn2.0#",
+	"stencils":[],
+	"properties":[
+		{
+			"roles": ["task"],
+			"properties": [
+                {
+                    "id":"j5_status_change",
+                    "type":"String",
+                    "title":"j5 Status Change",
+                    "value":"",
+                    "description":"Specify the value for the status field of the log, when this task becomes ready",
+                    "readonly":false,
+                    "optional":true
+                },
+                {
+                    "id":"j5_checklists",
+                    "type":"Complex",
+                    "title":"j5 Checklists",
+                    "value":"",
+                    "description":"Specify checklists that must be completed",
+                    "readonly":false,
+                    "optional":true,
+                    "complexItems": [
+                        {
+                            "id":"checklist_name",
+                            "name":"Checklist Name",
+                            "type":"String",
+                            "value":"",
+                            "width":300,
+                            "optional":false
+                        },
+                        {
+                            "id":"documentation",
+                            "name":"Documentation",
+                            "type":"String",
+                            "value":"",
+                            "width":300,
+                            "optional":true
+                        },
+                        {
+                            "id":"applies_to_all_choices",
+                            "name":"All choices?",
+                            "type":"Boolean",
+                            "value":true,
+                            "width":100,
+                            "optional":true
+                        },
+                        {
+                            "id":"choice",
+                            "name":"Specific Choice",
+                            "type":"String",
+                            "value":"",
+                            "width":200,
+                            "optional":true
+                        }
+                    ]
+                },
+				{
+					"id":"j5_completion_conditions",
+					"type":"Complex",
+					"title":"j5 Completion Conditions",
+					"value":"",
+					"description":"Additional conditions that must be true before the task can be completed ",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"expression",
+							"name":"Condition Expression",
+							"type":"String",
+							"value":"",
+							"width":300,
+							"optional":false
+						},
+                        {
+                            "id":"documentation",
+                            "name":"Documentation",
+                            "type":"String",
+                            "value":"",
+                            "width":300,
+                            "optional":true
+                        },
+						{
+							"id":"applies_to_all_choices",
+							"name":"All choices?",
+							"type":"Boolean",
+							"value":false,
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"choice",
+							"name":"Specific Choice",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":true
+						}
+                    ]
+				}
+			]
+		},
+        {
+            "roles": ["subprocess", "task"],
+            "properties": [
+                {
+                    "id":"j5_properties",
+                    "type":"Complex",
+                    "title":"j5 Properties",
+                    "value":"",
+                    "description":"Specify extended properties that are used by j5 sites.",
+                    "readonly":false,
+                    "optional":true,
+                    "complexItems": [
+                        {
+                            "id":"property_name",
+                            "name":"Property Name",
+                            "type":"String",
+                            "value":"",
+                            "width":300,
+                            "optional":false
+                        },
+                        {
+                            "id":"property_value",
+                            "name":"Property Value",
+                            "type":"String",
+                            "value":"",
+                            "width":300,
+                            "optional":false
+                        }
+                    ]
+                }
+            ]
+        }
+	],
+	"rules": {
+		"connectionRules": [],
+        "cardinalityRules": [],
+		"containmentRules": []
+	},
+	"removestencils": [
+		"Subprocess",
+		"CollapsedEventSubprocess",
+		"EventSubprocess",
+		"EventbasedGateway",
+		"InclusiveGateway",
+		"ComplexGateway",
+		"CollapsedPool",
+		"DataObject",
+		"ITSystem",
+		"DataStore",
+		"StartMessageEvent",
+		"StartTimerEvent",
+		"StartEscalationEvent",
+		"StartConditionalEvent",
+		"StartErrorEvent",
+		"StartCompensationEvent",
+		"StartSignalEvent",
+		"StartMultipleEvent",
+		"StartParallelMultipleEvent",
+		"IntermediateEscalationEvent",
+		"IntermediateConditionalEvent",
+		"IntermediateLinkEventCatching",
+		"IntermediateErrorEvent",
+		"IntermediateCancelEvent",
+		"IntermediateCompensationEventCatching",
+		"IntermediateSignalEventCatching",
+		"IntermediateMultipleEventCatching",
+		"IntermediateParallelMultipleEventCatching",
+		"IntermediateEvent",
+		"IntermediateMessageEventThrowing",
+		"IntermediateEscalationEventThrowing",
+		"IntermediateLinkEventThrowing",
+		"IntermediateCompensationEventThrowing",
+		"IntermediateSignalEventThrowing",
+		"IntermediateMultipleEventThrowing",
+		"EndMessageEvent",
+		"EndEscalationEvent",
+		"EndErrorEvent",
+		"EndCancelEvent",
+		"EndCompensationEvent",
+		"EndSignalEvent",
+		"EndMultipleEvent"
+	],
+	"removeproperties": [
+		{
+			"stencil": "Task",
+			"properties": ["resources", "messageref", "operationref", "startquantity", "completionquantity", "assignments", "testbefore", "loopcondition", "loopmaximum", "loopcardinality", "loopdatainput", "loopdataoutput", "inputdataitem", "outputdataitem", "behavior", "complexbehaviordefinition", "completioncondition", "onebehavioreventref:", "nonebehavioreventref", "properties", "datainputset", "dataoutputset", "operationname", "inmessagename", "inmsgitemkind", "inmsgstructure", "inmsgimport", "inmsgiscollection", "outmessagename", "outmsgitemkind", "outmsgstructure", "outmsgimport", "outmsgiscollection"]
+		 },
+		 {
+			"stencil": "CollapsedSubprocess",
+			"properties": ["inputmaps", "outputmaps", "adhocordering", "adhoccompletioncondition", "adhoccancelremaininginstances", "transaction", "transactionmethod", "startquantity", "completionquantity", "assignments", "testbefore", "loopcondition", "loopmaximum", "loopcardinality", "loopdatainput", "loopdataoutput", "inputdataitem", "outputdataitem", "behavior", "complexbehaviordefinition", "completioncondition", "onebehavioreventref:", "nonebehavioreventref", "properties", "datainputset", "dataoutputset"]
+		 },
+		 {
+			"stencil": "Pool",
+			"properties": ["adhoc", "adhocordering", "adhoccompletioncondition", "suppressjoinfailure", "enableinstancecompensation"]
+		 }
+	]
+}

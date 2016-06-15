@@ -1,0 +1,30 @@
+{
+	"extensions": [
+		{
+			"title" : "j5 Workflow",
+			"title_de":"j5 Workflow",
+			"namespace" : "http://sjsoft.com/oryx-editor/stencilsets/extensions/bpmn2.0-sjsoft-j5#",
+			"description":"A subset of BPMN 2.0 containing j5 supported notation.",
+			"definition":"bpmn2.0-sjsoft-j5/bpmn2.0-sjsoft-j5.json",
+			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
+		},
+	],
+	"perspectives": [
+		{
+			"title":"j5 Workflow",
+			"namespace":"http://sjsoft.com/oryx-editor/stencilsets/perspectives/sjsoft-j5-bpmn2#",
+			"description":"BPMN for j5 Workflow.",
+			"stencilset":"http://b3mn.org/stencilset/bpmn2.0#",
+			"extensions" : ["http://sjsoft.com/oryx-editor/stencilsets/extensions/bpmn2.0-sjsoft-j5#"]
+		},
+		{
+			"title":"BPMN (Complete)",
+			"title_de":"BPMN (Vollständig)",
+			"namespace":"http://oryx-editor.org/stencilsets/perspectives/academicbpmn2#",
+			"description":"BPMN complete. Features the whole standard and all elements from the specification.",
+			"description_de":"BPMN in dem kompletten standardisierten Umfang (sämtliche Modellierungskonstrukte).",
+			"stencilset":"http://b3mn.org/stencilset/bpmn2.0#",
+			"extensions" : []
+		},
+	]
+}
